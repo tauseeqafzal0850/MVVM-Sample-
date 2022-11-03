@@ -1,12 +1,11 @@
-package com.example.mvvm
+package com.example.mvvm.presentation.ui.activities
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.mvvm.R
 import com.example.mvvm.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
