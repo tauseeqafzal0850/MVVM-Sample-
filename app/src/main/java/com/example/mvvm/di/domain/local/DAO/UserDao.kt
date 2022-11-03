@@ -1,4 +1,4 @@
-package com.example.mvvm.di.domain.local
+package com.example.mvvm.di.domain.local.DAO
 
 
 import android.arch.persistence.room.Dao

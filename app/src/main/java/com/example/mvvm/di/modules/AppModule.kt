@@ -3,8 +3,8 @@ package com.example.mvvm.di.modules
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.example.mvvm.data.implementations.SharedPrefRepositoryImpl
-import com.example.mvvm.data.database.AppDatabase
-import com.example.mvvm.di.domain.local.UserDao
+import com.example.mvvm.di.domain.local.AppDatabase
+import com.example.mvvm.di.domain.local.DAO.UserDao
 import com.example.mvvm.di.domain.remote.ApiService
 import com.example.mvvm.di.domain.repository.SharedPrefRepository
 import com.example.mvvm.di.domain.repository.UserRepository
@@ -43,12 +43,12 @@ object AppModule {
     }
 
     @Provides
-    fun providesUserDao(userDatabase: AppDatabase):UserDao = userDatabase.userDao()
+    fun providesUserDao(userDatabase: AppDatabase): UserDao = userDatabase.userDao()
 
     @Provides
     @Singleton
-    fun providesUserDatabase(@ApplicationContext context: Context):AppDatabase
-            = Room.databaseBuilder(context,AppDatabase::class.java,"UserDatabase").build()
+    fun providesUserDatabase(@ApplicationContext context: Context): AppDatabase
+            = Room.databaseBuilder(context, AppDatabase::class.java,"UserDatabase").build()
 
     @Provides
     fun providesUserRepository(userDao: UserDao) : UserRepository
