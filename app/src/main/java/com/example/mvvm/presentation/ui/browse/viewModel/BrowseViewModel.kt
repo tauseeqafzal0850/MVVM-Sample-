@@ -1,32 +1,111 @@
 package com.example.mvvm.presentation.ui.browse.viewModel
 
+import android.provider.ContactsContract.Data
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.mvvm.core.Resource
+import com.example.mvvm.data.implementations.DatabaseRepositoryImpl
 import com.example.mvvm.data.models.UserClass
 import com.example.mvvm.di.domain.repository.UserRepository
+import com.example.mvvm.di.responses.DatabaseResponse
+import com.example.mvvm.di.responses.NewsResponseDto
+import com.example.mvvm.presentation.ui.homePage.viewModel.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val databaseRepository: DatabaseRepositoryImpl
 ) : ViewModel() {
 
-    var userData: MutableLiveData<List<UserClass>> = MutableLiveData()
+    private val _getUsersList = MutableLiveData<DatabaseResponseState>()
+    val getUsersList: LiveData<DatabaseResponseState> = _getUsersList
 
-    fun observeData():MutableLiveData<List<UserClass>>
-    {
-        return userData
+    private val _saveUser = MutableLiveData<DatabaseResponseState>()
+    val saveUser: LiveData<DatabaseResponseState> = _saveUser
+
+    fun getUsersList(
+    ) {
+        viewModelScope.launch {
+
+            databaseRepository.getUsersList().onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _getUsersList.postValue(
+                            DatabaseResponseState(
+                                data = result.data ?: DatabaseResponse(),
+                                message = result.data!!.message ?: String(),
+                                isLoading = false
+                            )
+                        )
+
+                    }
+                    is Resource.Error -> _getUsersList.postValue(
+                        DatabaseResponseState(
+                            data = result.data ?: DatabaseResponse(),
+                            message = result.data!!.message ?: String(),
+                            isLoading = false
+                        )
+                    )
+                    is Resource.Loading -> _getUsersList.postValue(
+                        DatabaseResponseState(
+                            data = result.data ?: DatabaseResponse(),
+                            message = result.data!!.message ?: String(),
+                            isLoading = true
+                        )
+                    )
+                }
+            }.launchIn(this)
+
+        }
     }
 
-     suspend fun loadData()
-    {
-        val list=userRepository.getUserList()
-        userData.postValue(list)
-    }
-    suspend fun insertUser(userClass: UserClass)
-    {
-        userRepository.saveUser(userClass)
+
+    fun saveUser(
+        userClass: UserClass
+    ) {
+        viewModelScope.launch {
+
+            databaseRepository.addUser(userClass =userClass ).onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _saveUser.postValue(
+                            DatabaseResponseState(
+                                data = result.data ?: DatabaseResponse(),
+                                message = result.data!!.message ?: String(),
+                                isLoading = false
+                            )
+                        )
+
+                    }
+                    is Resource.Error -> _saveUser.postValue(
+                        DatabaseResponseState(
+                            data = result.data ?: DatabaseResponse(),
+                            message = result.data!!.message ?: String(),
+                            isLoading = false
+                        )
+                    )
+                    is Resource.Loading -> _saveUser.postValue(
+                        DatabaseResponseState(
+                            data = result.data ?: DatabaseResponse(),
+                            message = result.data!!.message ?: String(),
+                            isLoading = true
+                        )
+                    )
+                }
+            }.launchIn(this)
+
+        }
     }
 
+    data class DatabaseResponseState(
+        val data: DatabaseResponse = DatabaseResponse(),
+        val message: String? = "",
+        val isLoading: Boolean = false,
+    )
 }

@@ -16,6 +16,7 @@ import com.example.mvvm.presentation.ui.browse.adapter.UserListAdapter
 import com.example.mvvm.presentation.ui.browse.viewModel.BrowseViewModel
 import com.example.mvvm.presentation.utils.MotionToast
 import com.example.mvvm.presentation.utils.MotionToastStyle
+import com.example.mvvm.presentation.utils.ViewUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,6 +39,7 @@ class BrowseFragment : Fragment() {
     }
 
     private fun handleEventListeners() {
+
         binding.btnSaveUser.setOnClickListener {
 
             if (binding.edName.text!!.isEmpty()) {
@@ -51,24 +53,19 @@ class BrowseFragment : Fragment() {
                     ResourcesCompat.getFont(requireActivity(), R.font.helvetica_regular)
                 )
             } else if (binding.edAge.text!!.isEmpty()) {
-                MotionToast.createToast(
+                ViewUtils.showToast(
+                    requireActivity(),
+                    getString(R.string.error),
+                    "Enter Your Name",
+                    MotionToastStyle.ERROR
+                )
+
+            } else if (binding.edDesignation.text!!.isEmpty()) {
+                ViewUtils.showToast(
                     requireActivity(),
                     getString(R.string.error),
                     "Enter Your Age",
-                    MotionToastStyle.ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.LONG_DURATION,
-                    ResourcesCompat.getFont(requireActivity(), R.font.helvetica_regular)
-                )
-            } else if (binding.edDesignation.text!!.isEmpty()) {
-                MotionToast.createToast(
-                    requireActivity(),
-                    getString(R.string.error),
-                    "Enter Your Designation",
-                    MotionToastStyle.ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.LONG_DURATION,
-                    ResourcesCompat.getFont(requireActivity(), R.font.helvetica_regular)
+                    MotionToastStyle.ERROR
                 )
             } else {
                 saveUser(
@@ -82,7 +79,7 @@ class BrowseFragment : Fragment() {
 
     private fun saveUser(name: String, age: Int, designation: String) {
         lifecycleScope.launch {
-            mViewModel.insertUser(UserClass(name, designation, age,0))
+            mViewModel.saveUser(UserClass(name, designation, age, 0))
             binding.edName.setText("")
             binding.edAge.setText("")
             binding.edDesignation.setText("")
@@ -92,33 +89,53 @@ class BrowseFragment : Fragment() {
 
     private fun getUsersList() {
         lifecycleScope.launch {
-            mViewModel.loadData()
+            mViewModel.getUsersList()
         }
     }
 
     private fun setupObserver() {
 
-        mViewModel.userData.observe(viewLifecycleOwner) { response ->
-            val data = response as ArrayList<UserClass>
-            if (data.isNotEmpty()) {
+        mViewModel.getUsersList.observe(viewLifecycleOwner) { response ->
+            if (response.data.data != null) {
+                val data = response.data.data as ArrayList<UserClass>
                 setAdapter(data)
             } else {
-                MotionToast.createToast(
+                if(response.data.message!!.isNotEmpty()) {
+                    ViewUtils.showToast(
+                        requireActivity(),
+                        getString(R.string.error),
+                        response.data.message.toString(),
+                        MotionToastStyle.ERROR
+                    )
+                }
+            }
+        }
+
+        mViewModel.saveUser.observe(viewLifecycleOwner) { response ->
+            if (response.data.message == "Employee Saved Successfully") {
+                ViewUtils.showToast(
                     requireActivity(),
-                    getString(R.string.error),
-                    "No data Found",
-                    MotionToastStyle.ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.LONG_DURATION,
-                    ResourcesCompat.getFont(requireActivity(), R.font.helvetica_regular)
+                    getString(R.string.success),
+                    response.data.message.toString(),
+                    MotionToastStyle.SUCCESS
                 )
+
+            } else {
+                if(response.data.message!!.isNotEmpty()) {
+                    ViewUtils.showToast(
+                        requireActivity(),
+                        getString(R.string.error),
+                        response.data.message.toString(),
+                        MotionToastStyle.ERROR
+                    )
+                }
             }
         }
     }
 
     private fun setAdapter(data: java.util.ArrayList<UserClass>) {
         adapter = UserListAdapter(data)
-        binding.recyclerViewListUser.layoutManager=LinearLayoutManager(requireActivity())
-        binding.recyclerViewListUser.adapter=adapter
+        binding.recyclerViewListUser.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerViewListUser.adapter = adapter
     }
 }
