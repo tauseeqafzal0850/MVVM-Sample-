@@ -20,5 +20,5 @@ It is a bridge between the View and Model(business logic). It does not have any 
 <br />
 <b>Project Structure</b><br />
 <br />
-![img_3.png](img_3.png)
+![image](https://user-images.githubusercontent.com/49031493/199671050-1bf71b83-423c-44ae-9713-e19bebe0a6fd.png)
 
