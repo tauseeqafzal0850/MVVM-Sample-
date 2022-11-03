@@ -15,6 +15,7 @@ import com.example.mvvm.presentation.ui.homePage.adapter.NewsListAdapter
 import com.example.mvvm.presentation.ui.homePage.viewModel.HomeViewModel
 import com.example.mvvm.presentation.utils.MotionToast
 import com.example.mvvm.presentation.utils.MotionToastStyle
+import com.example.mvvm.presentation.utils.ViewUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
@@ -34,7 +35,9 @@ class HomeFragment : Fragment() {
         setupObserver()
         getPopularNews()
         return binding.root
+        
     }
+
     private fun getPopularNews() {
         mViewModel.getPopularNews()
     }
@@ -47,14 +50,13 @@ class HomeFragment : Fragment() {
                         setAdapter(result.articles!!)
                     } else {
                         response.data.let {
-                            MotionToast.createToast(
+                            binding.shimmerLayout.visibility = View.GONE
+                            binding.recylerViewNews.visibility = View.GONE
+                            ViewUtils.showToast(
                                 requireActivity(),
                                 getString(R.string.error),
                                 response.message.toString(),
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(requireActivity(), R.font.helvetica_regular)
+                                MotionToastStyle.ERROR
                             )
                         }
                     }
@@ -65,9 +67,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setAdapter(articles: List<NewsResponseDto.Article>) {
-        adapter= NewsListAdapter(articles as ArrayList<NewsResponseDto.Article>)
-        binding.recylerViewNews.layoutManager=LinearLayoutManager(requireActivity())
-        binding.recylerViewNews.adapter=adapter
+        adapter = NewsListAdapter(articles as ArrayList<NewsResponseDto.Article>)
+        binding.recylerViewNews.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recylerViewNews.adapter = adapter
+        binding.shimmerLayout.visibility = View.GONE
+        binding.recylerViewNews.visibility = View.VISIBLE
 
     }
 
