@@ -1,7 +1,7 @@
 package com.example.mvvm.data.implementations
 
 import com.example.mvvm.core.Resource
-import com.example.mvvm.data.responses.NewsResponseDto
+import com.example.mvvm.di.responses.NewsResponseDto
 import com.example.mvvm.di.domain.repository.MoviesRepository
 import com.example.mvvm.di.domain.remote.ApiService
 import com.example.mvvm.presentation.utils.Utility

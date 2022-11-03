@@ -1,4 +1,4 @@
-package com.example.mvvm.data.responses
+package com.example.mvvm.di.responses
 
 data class NewsResponseDto(
     var articles: List<Article>? = listOf(),

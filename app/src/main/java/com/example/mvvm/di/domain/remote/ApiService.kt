@@ -1,6 +1,6 @@
 package com.example.mvvm.di.domain.remote
 
-import com.example.mvvm.data.responses.NewsResponseDto
+import com.example.mvvm.di.responses.NewsResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
 

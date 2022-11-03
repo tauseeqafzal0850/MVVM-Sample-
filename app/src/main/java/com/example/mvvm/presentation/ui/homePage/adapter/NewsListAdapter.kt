@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.mvvm.R
-import com.example.mvvm.data.responses.NewsResponseDto
+import com.example.mvvm.di.responses.NewsResponseDto
 import com.example.mvvm.databinding.NewsItemContentBinding
 import com.example.mvvm.presentation.utils.Utility
 import java.text.ParseException

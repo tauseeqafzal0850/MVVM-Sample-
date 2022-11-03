@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvm.core.Resource
 import com.example.mvvm.data.implementations.MoviesRepositoryImpl
-import com.example.mvvm.data.responses.NewsResponseDto
+import com.example.mvvm.di.responses.NewsResponseDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
