@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#100E15</color>
+    <color name="colorPrimaryDark">#100E15</color>
+    <color name="colorSecondary">#100E15</color>
+    <color name="colorSecondaryDark">#100E15</color>
+    <color name="colorAccent">#FF03DAC5</color>
+    <color name="black">#100E15</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="icon_color">#302E37</color>
+    <!--    Background Colors-->
+    <color name="warning_color">#FBC02D</color>
+    <color name="error_color">#D50000</color>
+    <color name="success_color">#FFFFFFFF</color>
+    <color name="info_color">#FFFFFFFF</color>
+    <color name="delete_color">#0288D1</color>
+    <!--    Background Transparent Colors-->
+    <color name="warning_bg_color">#B2CFCFCF</color>
+    <color name="error_bg_color">#100E15</color>
+    <color name="success_bg_color">#100E15</color>
+    <color name="info_bg_color">#B2CFCFCF</color>
+    <color name="delete_bg_color">#B2CFCFCF</color>
+    <color name="dark_bg_color">#2F3032</color>
+</resources>
