@@ -20,6 +20,5 @@ It is a bridge between the View and Model(business logic). It does not have any 
 <br />
 <b>Project Structure</b><br />
 <br />
-![img_2.png](img_2.png)
-<br />
+![img_3.png](img_3.png)
 
