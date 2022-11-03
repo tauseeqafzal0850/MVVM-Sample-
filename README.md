@@ -1,6 +1,6 @@
-# MVVM-Sample-
+# Model-View-ViewModel MVVM
 MVVM architecture is a Model-View-ViewModel architecture that removes the tight coupling between each component. Most importantly, in this architecture, the children don't have the direct reference to the parent, they only have the reference by observables.
-![img.png](img.png)
+![img.png](img.png)!
 
 #Model:
 It represents the data and the business logic of the Android Application. It consists of the business logic - local and remote data source, model classes, repository.
