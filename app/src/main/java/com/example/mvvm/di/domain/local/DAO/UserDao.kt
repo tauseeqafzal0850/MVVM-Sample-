@@ -1,4 +1,4 @@
-package com.example.mvvm.data.db.DAO
+package com.example.mvvm.di.domain.local.DAO
 
 
 import androidx.lifecycle.LiveData

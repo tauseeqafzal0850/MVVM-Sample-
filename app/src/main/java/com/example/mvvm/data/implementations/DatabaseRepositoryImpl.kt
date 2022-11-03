@@ -1,9 +1,8 @@
 package com.example.mvvm.data.implementations
 
-import android.app.Application
 import com.example.mvvm.R
 import com.example.mvvm.core.Resource
-import com.example.mvvm.data.db.database.AppDatabase
+import com.example.mvvm.di.domain.local.db.AppDatabase
 import com.example.mvvm.data.models.UserClass
 import com.example.mvvm.di.domain.repository.DatabaseRepository
 import com.example.mvvm.di.modules.MVVMApplication

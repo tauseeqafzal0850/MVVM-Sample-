@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.example.mvvm.data.implementations.SharedPrefRepositoryImpl
-import com.example.mvvm.data.db.database.AppDatabase
-import com.example.mvvm.data.db.DAO.UserDao
+import com.example.mvvm.di.domain.local.db.AppDatabase
+import com.example.mvvm.di.domain.local.DAO.UserDao
 import com.example.mvvm.di.domain.remote.ApiService
 import com.example.mvvm.di.domain.repository.SharedPrefRepository
 import com.example.mvvm.presentation.utils.Constants
