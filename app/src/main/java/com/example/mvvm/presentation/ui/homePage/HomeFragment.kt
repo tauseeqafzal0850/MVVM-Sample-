@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         setupObserver()
         getPopularNews()
         return binding.root
-        
+
     }
 
     private fun getPopularNews() {

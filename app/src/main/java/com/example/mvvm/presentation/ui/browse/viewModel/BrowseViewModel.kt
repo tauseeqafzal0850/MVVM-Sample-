@@ -1,6 +1,5 @@
 package com.example.mvvm.presentation.ui.browse.viewModel
 
-import android.provider.ContactsContract.Data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mvvm.core.Resource
 import com.example.mvvm.data.implementations.DatabaseRepositoryImpl
 import com.example.mvvm.data.models.UserClass
-import com.example.mvvm.di.domain.repository.UserRepository
 import com.example.mvvm.di.responses.DatabaseResponse
-import com.example.mvvm.di.responses.NewsResponseDto
-import com.example.mvvm.presentation.ui.homePage.viewModel.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
