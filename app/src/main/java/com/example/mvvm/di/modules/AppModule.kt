@@ -1,13 +1,13 @@
 package com.example.mvvm.di.modules
 
-import android.arch.persistence.room.Room
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.example.mvvm.data.implementations.SharedPrefRepositoryImpl
-import com.example.mvvm.di.domain.local.AppDatabase
-import com.example.mvvm.di.domain.local.DAO.UserDao
+import com.example.mvvm.data.db.database.AppDatabase
+import com.example.mvvm.data.db.DAO.UserDao
 import com.example.mvvm.di.domain.remote.ApiService
 import com.example.mvvm.di.domain.repository.SharedPrefRepository
-import com.example.mvvm.di.domain.repository.UserRepository
 import com.example.mvvm.presentation.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -42,18 +42,19 @@ object AppModule {
             .build()
     }
 
-    @Provides
-    fun providesUserDao(userDatabase: AppDatabase): UserDao = userDatabase.userDao()
-
-    @Provides
     @Singleton
-    fun providesUserDatabase(@ApplicationContext context: Context): AppDatabase
-            = Room.databaseBuilder(context, AppDatabase::class.java,"UserDatabase").build()
-
     @Provides
-    fun providesUserRepository(userDao: UserDao) : UserRepository
-            = UserRepository(userDao)
-
+    fun getAppDatabase(context: Application): AppDatabase {
+        return  Room.databaseBuilder(context.applicationContext,
+             AppDatabase::class.java,Constants.dataBaseName)
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+    @Singleton
+    @Provides
+    fun getUserDao(appDatabase: AppDatabase): UserDao {
+        return appDatabase.userDao()
+    }
     @Provides
     @Singleton
     fun provideEndPointService(

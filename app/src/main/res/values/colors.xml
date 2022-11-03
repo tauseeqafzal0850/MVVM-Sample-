@@ -21,4 +21,5 @@
     <color name="info_bg_color">#B2CFCFCF</color>
     <color name="delete_bg_color">#B2CFCFCF</color>
     <color name="dark_bg_color">#2F3032</color>
+    <color name="textsubcolor">#5D5C6C</color>
 </resources>

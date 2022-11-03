@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvm.R
+import com.example.mvvm.data.responses.NewsResponseDto
 import com.example.mvvm.databinding.FragmentHomeBinding
-import com.example.mvvm.presentation.utils.Constants
+import com.example.mvvm.presentation.ui.homePage.adapter.NewsListAdapter
+import com.example.mvvm.presentation.ui.homePage.viewModel.HomeViewModel
 import com.example.mvvm.presentation.utils.MotionToast
 import com.example.mvvm.presentation.utils.MotionToastStyle
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -20,36 +24,27 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val mViewModel: HomeViewModel by viewModels()
     private val page: Int = 1
+    private lateinit var adapter: NewsListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        //  setupObserver()
-        //  getPopularMovies()
+        setupObserver()
+        getPopularNews()
         return binding.root
     }
-
-    private fun getPopularMovies() {
-        mViewModel.getPopularMovies(api_key = Constants.apiKey, "en-US", page)
+    private fun getPopularNews() {
+        mViewModel.getPopularNews()
     }
 
-
     private fun setupObserver() {
-        mViewModel.getPopularMovies.observe(viewLifecycleOwner) { response ->
+        mViewModel.getPopularNews.observe(viewLifecycleOwner) { response ->
             if (!response.isLoading) {
                 response.data.let { result ->
-                    if (result.results!!.isNotEmpty()) {
-                        MotionToast.createToast(
-                            requireActivity(),
-                            getString(R.string.success),
-                            response.data.results!!.size.toString(),
-                            MotionToastStyle.INFO,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.LONG_DURATION,
-                            ResourcesCompat.getFont(requireActivity(), R.font.helvetica_regular)
-                        )
+                    if (result.articles!!.isNotEmpty()) {
+                        setAdapter(result.articles!!)
                     } else {
                         response.data.let {
                             MotionToast.createToast(
@@ -69,6 +64,12 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setAdapter(articles: List<NewsResponseDto.Article>) {
+        adapter= NewsListAdapter(articles as ArrayList<NewsResponseDto.Article>)
+        binding.recylerViewNews.layoutManager=LinearLayoutManager(requireActivity())
+        binding.recylerViewNews.adapter=adapter
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -205,7 +205,7 @@ class MotionToast {
 
                     setDescriptionDetails(
                         font,
-                        ContextCompat.getColor(context,R.color.colorPrimary) ,
+                        ContextCompat.getColor(context,R.color.white) ,
                         message,
                         binding.customToastDescription
                     )

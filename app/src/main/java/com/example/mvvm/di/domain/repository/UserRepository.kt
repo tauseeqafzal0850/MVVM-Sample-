@@ -1,18 +1,18 @@
 package com.example.mvvm.di.domain.repository
 
-import androidx.annotation.WorkerThread
-import com.example.mvvm.data.database.models.UserClass
-import com.example.mvvm.di.domain.local.DAO.UserDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import androidx.room.RoomDatabase
+import com.example.mvvm.data.models.UserClass
+import com.example.mvvm.data.db.DAO.UserDao
+import com.example.mvvm.data.db.database.AppDatabase
 import javax.inject.Inject
 
-class UserRepository @Inject constructor (private val userDao: UserDao) {
-   val getUser: Flow<List<UserClass>> = userDao.getUser()
+class UserRepository @Inject constructor (private val userDatabase: AppDatabase) {
 
-   @WorkerThread
-   suspend fun insert(user:UserClass) = withContext(Dispatchers.IO){
-      userDao.insert(user)
+  suspend fun getUserList():List<UserClass>{
+      return userDatabase.userDao().getAllUsers()
+   }
+   suspend fun saveUser(userClass: UserClass)
+   {
+      userDatabase.userDao().addUser(userClass)
    }
 }

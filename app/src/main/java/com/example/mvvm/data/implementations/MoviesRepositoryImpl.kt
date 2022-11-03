@@ -1,8 +1,8 @@
 package com.example.mvvm.data.implementations
 
 import com.example.mvvm.core.Resource
+import com.example.mvvm.data.responses.NewsResponseDto
 import com.example.mvvm.di.domain.repository.MoviesRepository
-import com.example.mvvm.data.responses.GetMoviesResponseDto
 import com.example.mvvm.di.domain.remote.ApiService
 import com.example.mvvm.presentation.utils.Utility
 import kotlinx.coroutines.flow.Flow
@@ -17,26 +17,24 @@ class MoviesRepositoryImpl @Inject constructor(private val apiService: ApiServic
     /*
     Fetch Popular Movies
      */
-    override fun getPopularMovies(
-        api_key: String,
-        language: String,
-        page: Int
-    ): Flow<Resource<GetMoviesResponseDto>> =
+    override fun getPopularNews(
+
+    ): Flow<Resource<NewsResponseDto>> =
         flow {
             emit(
                 Resource.Loading(
-                    data = GetMoviesResponseDto()
+                    data = NewsResponseDto()
                 )
             )
             try {
-                val apiCall = apiService.getPopularMovies(api_key, language, page)
-                if (!apiCall.body()!!.results.isNullOrEmpty()) {
+                val apiCall = apiService.getPopularNews()
+                if (!apiCall.body()!!.articles.isNullOrEmpty()) {
                     emit(Resource.Success(apiCall.body()))
                 } else {
                     emit(
                         Resource.Error(
                             message = apiCall.message(),
-                            data = GetMoviesResponseDto()
+                            data = NewsResponseDto()
                         )
                     )
                 }
@@ -46,14 +44,14 @@ class MoviesRepositoryImpl @Inject constructor(private val apiService: ApiServic
                 emit(
                     Resource.Error(
                         message = errorInfo!!,
-                        data = GetMoviesResponseDto()
+                        data = NewsResponseDto()
                     )
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
                         message = "Couldn't reach server, check your internet connection.",
-                        data = GetMoviesResponseDto()
+                        data = NewsResponseDto()
                     )
                 )
             }

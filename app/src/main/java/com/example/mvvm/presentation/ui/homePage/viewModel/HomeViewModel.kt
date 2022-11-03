@@ -1,12 +1,12 @@
-package com.example.mvvm.presentation.ui.homePage
+package com.example.mvvm.presentation.ui.homePage.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvm.core.Resource
-import com.example.mvvm.data.responses.GetMoviesResponseDto
 import com.example.mvvm.data.implementations.MoviesRepositoryImpl
+import com.example.mvvm.data.responses.NewsResponseDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -18,36 +18,35 @@ class HomeViewModel @Inject constructor(
     private val moviesRepository: MoviesRepositoryImpl
 ) : ViewModel() {
 
-    private val _getPopularMovies = MutableLiveData<PopularMoviesState>()
-    val getPopularMovies: LiveData<PopularMoviesState> = _getPopularMovies
+    private val _getPopularNews = MutableLiveData<PopularNewsState>()
+    val getPopularNews: LiveData<PopularNewsState> = _getPopularNews
 
-    fun getPopularMovies(
-        api_key: String, language: String, page: Int
+    fun getPopularNews(
     ) {
         viewModelScope.launch {
 
-            moviesRepository.getPopularMovies(api_key, language, page).onEach { result ->
+            moviesRepository.getPopularNews().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _getPopularMovies.postValue(
-                            PopularMoviesState(
-                                data = result.data ?: GetMoviesResponseDto(),
+                        _getPopularNews.postValue(
+                            PopularNewsState(
+                                data = result.data ?: NewsResponseDto(),
                                 message = result.message ?: String(),
                                 isLoading = false
                             )
                         )
 
                     }
-                    is Resource.Error -> _getPopularMovies.postValue(
-                        PopularMoviesState(
-                            data = result.data ?: GetMoviesResponseDto(),
+                    is Resource.Error -> _getPopularNews.postValue(
+                        PopularNewsState(
+                            data = result.data ?: NewsResponseDto(),
                             message = result.message ?: String(),
                             isLoading = false
                         )
                     )
-                    is Resource.Loading -> _getPopularMovies.postValue(
-                        PopularMoviesState(
-                            data = result.data ?: GetMoviesResponseDto(),
+                    is Resource.Loading -> _getPopularNews.postValue(
+                        PopularNewsState(
+                            data = result.data ?: NewsResponseDto(),
                             message = result.message ?: String(),
                             isLoading = true
                         )
@@ -58,8 +57,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    data class PopularMoviesState(
-        val data: GetMoviesResponseDto = GetMoviesResponseDto(),
+    data class PopularNewsState(
+        val data: NewsResponseDto = NewsResponseDto(),
         val message: String? = "",
         val isLoading: Boolean = false,
     )
