@@ -7,14 +7,19 @@ It consists of the UI Code(Activity, Fragment), XML. It sends the user action to
 <br /><b>ViewModel:</b> 
 It is a bridge between the View and Model(business logic). It does not have any clue which View has to use it as it does not have a direct reference to the View. So basically, the ViewModel should not be aware of the view who is interacting with. It interacts with the Model and exposes the observable that can be observed by the View.
 <br />
-<b>Project Structure</b><br />
 <br />
-![img_2.png](img_2.png)
-<br />
-<br />
+<b>Mostly Used</b><br />
 <li>Dependency Injection</li>
 <li>Room Database</li>
+<li>Coil</li>
 <li>Remote Source</li>
 <li>Hilt View Model</li>
 <li>Coroutines</li>
 <li>Flow</li>
+<br />
+<br />
+<b>Project Structure</b><br />
+<br />
+![img_2.png](img_2.png)
+<br />
+
